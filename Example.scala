@@ -12,8 +12,8 @@ object Example {
       "c" -> List(2),
       "d" -> List(1, 2, 3, 4))
     val constraints = Seq(allDifferent(vars = List("a", "b", "c", "d")))
-    val solver = new ConstraintSolver(domains, constraints)
-    val solution = solver.solve()
+    val solver = ConstraintSolver(domains, constraints)
+    val solution = solver.solve
     println(solution)
   }
 }

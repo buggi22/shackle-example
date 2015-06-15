@@ -58,24 +58,26 @@ object ZebraLogicPuzzle {
   
   val constraints = allDiffConstraints ++ clueConstraints
   
-  val solver = new ConstraintSolver(domains, constraints.toSeq)
+  val solver = ConstraintSolver(domains, constraints.toSeq)
 
   def main(args: Array[String]): Unit = {
-    val solution = solver.solve()
-    solution match {
-      case None => println("No solution found")
-      case Some(sol) => {
-        for (house <- houses) {
-          print(s"house ${house}:")
-          for ((attributeName, values) <- attributes;
-              value <- values) {
-            if (sol(value) == house) {
-              print(s"\t${value}")
-            }
+    var foundSolution = false
+    for (solution <- solver.allSolutions) {
+      foundSolution = true
+      println("Solution:")
+      for (house <- houses) {
+        print(s"house ${house}:")
+        for ((attributeName, values) <- attributes;
+            value <- values) {
+          if (solution(value) == house) {
+            print(s"\t${value}")
           }
-          println()
         }
+        println()
       }
+    }
+    if (!foundSolution) {
+      println("No solution found.")
     }
   }
 }
